@@ -766,6 +766,10 @@ app.listen(port, '0.0.0.0', async () => {
 })
 */
 
+app.get('/', (req, res) => {
+  res.send('Server is Running!')
+})
+
 // Start server in HTTPS and using the key
 const port = process.env.PORT
 https
@@ -778,4 +782,5 @@ https
   )
   .listen(port, '0.0.0.0', async () => {
     console.log(`serever is runing on port ${port} `)
+    await PostgresStatus()
   })
