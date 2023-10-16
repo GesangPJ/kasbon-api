@@ -11,6 +11,7 @@ const Docxtemplater = require("docxtemplater")
 const fs = require('fs')
 const path = require('path')
 const { v4: uuidv4 } = require('uuid')
+const https = require("https")
 
 const allowedOrigins = process.env.CORS_ORIGINS.split(',')
 const PREFLIGHT = process.env.PREFLIGHT
@@ -755,6 +756,7 @@ app.post('/api/download-lunas', async (req, res) => {
 })
 
 // Set Port buat server
+/*
 const port = process.env.PORT || 3001
 app.listen(port, '0.0.0.0', async () => {
   console.log(`Server is running on port ${port}`)
@@ -762,3 +764,18 @@ app.listen(port, '0.0.0.0', async () => {
   await PostgresStatus()
 
 })
+*/
+
+// Start server in HTTPS and using the key
+const port = process.env.PORT
+https
+  .createServer(
+    {
+      key: fs.readFileSync("key.pem"),
+      cert: fs.readFileSync("cert.pem"),
+    },
+    app
+  )
+  .listen(port, '0.0.0.0', async () => {
+    console.log(`serever is runing on port ${port} `)
+  })
